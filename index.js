@@ -14,6 +14,10 @@ app.use(morgan('dev'))
 app.use(bodyParser.urlencoded({ extended: false }))
 app.use(bodyParser.json())
 
+const authRoutes = require('./routes/auth')
+
+app.use('/auth', authRoutes)
+
 const server = http.createServer(app)
 
 server.listen(port, hostname, () => {
