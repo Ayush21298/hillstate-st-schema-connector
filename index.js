@@ -15,8 +15,10 @@ app.use(bodyParser.urlencoded({ extended: false }))
 app.use(bodyParser.json())
 
 const authRoutes = require('./routes/auth')
+const deviceRoutes = require('./routes/device')
 
 app.use('/auth', authRoutes)
+app.use('/device', deviceRoutes)
 
 const server = http.createServer(app)
 
