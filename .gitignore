@@ -120,3 +120,6 @@ dist
 # vim swap file
 *.swp
 
+# House info file
+house/
+
