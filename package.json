@@ -1,0 +1,24 @@
+{
+  "name": "hillstate-st-schema-connector",
+  "version": "1.0.0",
+  "description": "Connect Hillstate IoT with SmartThings",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Ayush21298/hillstate-st-schema-connector.git"
+  },
+  "keywords": [
+    "SmartThings",
+    "Hillstate",
+    "IoT"
+  ],
+  "author": "Ayush21298",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/Ayush21298/hillstate-st-schema-connector/issues"
+  },
+  "homepage": "https://github.com/Ayush21298/hillstate-st-schema-connector#readme"
+}
