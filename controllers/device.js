@@ -32,6 +32,34 @@ function grantCallbackAccess (callbackAuthentication) {
   return {}
 }
 
+function listDevices (inDeviceList) {
+  const outDeviceList = []
+  for (const inDevice of inDeviceList) {
+    if (devices[inDevice.deviceId]) {
+      outDeviceList.push({
+        externalDeviceId: inDevice.deviceId,
+        friendlyName: devices[inDevice.deviceId].friendlyName,
+        deviceHandlerType: devices[inDevice.deviceId].deviceHandlerType,
+        manufacturerInfo: {
+          manufacturerName: 'Ayush21298',
+          modelName: inDevice.deviceType,
+          hwVersion: inDevice.deviceType,
+          swVersion: inDevice.deviceType
+        },
+        deviceContext: {
+          roomName: devices[inDevice.deviceId].roomName,
+          categories: devices[inDevice.deviceId].categories
+        }
+      })
+    }
+  }
+  console.log(outDeviceList)
+  return outDeviceList
+}
+
+
+
+
 
 module.exports = {
   getStatus: function (req, res) {
