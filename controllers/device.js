@@ -111,6 +111,52 @@ function discoveryRequest (requestId) {
   })
 }
 
+function commandRequest (requestId, devices) {
+  return new Promise((resolve, reject) => {
+    const { externalDeviceId, commands } = devices[0]
+    axios.post(commandUrl, {
+      siteId: houseLoc.householdList[0].siteId,
+      dong: houseLoc.householdList[0].dong,
+      ho: houseLoc.householdList[0].ho,
+      deviceId: externalDeviceId,
+      devicePropertyList: [
+        {
+          name: capability.revGet(commands[0].capability),
+          value: commands[0].command
+        }
+      ]
+    }, {
+      params: {
+        access_token: process.env.ACCESS_TOKEN || 'access_token'
+      }
+    })
+      .then(function (response) {
+        const out = {
+          headers: {
+            schema: 'st-schema',
+            version: '1.0',
+            interactionType: 'commandResponse',
+            requestId: requestId
+          },
+          deviceState: [makeState(response.data)]
+        }
+        resolve(out)
+      })
+      .catch(function (error) {
+        console.log(error)
+        try {
+          if (error.response.statusText === 'Unauthorized') {
+            authController.login()
+            return commandRequest(requestId, devices)
+          } else {
+            reject(error)
+          }
+        } catch (err) {
+          reject(error)
+        }
+      })
+  })
+}
 
 function stateRefreshRequest (requestId, devices) {
   return new Promise((resolve, reject) => {
