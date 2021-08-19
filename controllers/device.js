@@ -57,6 +57,24 @@ function listDevices (inDeviceList) {
   return outDeviceList
 }
 
+function makeState (inDevice) {
+  const response = { externalDeviceId: inDevice.deviceId, states: [] }
+  const health = { component: 'main', capability: 'st.healthCheck', attribute: 'healthStatus', value: capability.get(inDevice.deviceState) }
+  response.states.push(health)
+  for (const props of inDevice.devicePropertyList) {
+    const state = { component: 'main', capability: capability.get(props.name), attribute: 'switch', value: props.value }
+    response.states.push(state)
+  }
+  return response
+}
+
+function findState (inDeviceList, findDeviceId) {
+  for (const inDevice of inDeviceList) {
+    if (inDevice.deviceId === findDeviceId) {
+      return makeState(inDevice)
+    }
+  }
+}
 
 
 
