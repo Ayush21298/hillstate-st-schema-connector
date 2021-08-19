@@ -29,6 +29,7 @@
     "express": "^4.17.1",
     "morgan": "^1.10.0",
     "nodemon": "^2.0.12",
+    "st-schema": "^1.4.0",
     "update-dotenv": "^1.1.1"
   },
   "devDependencies": {
@@ -36,6 +37,7 @@
     "eslint-config-standard": "^16.0.3",
     "eslint-plugin-import": "^2.24.0",
     "eslint-plugin-node": "^11.1.0",
-    "eslint-plugin-promise": "^5.1.0"
+    "eslint-plugin-promise": "^5.1.0",
+    "localtunnel": "^2.0.1"
   }
 }

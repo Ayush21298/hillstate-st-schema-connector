@@ -18,7 +18,7 @@ const authRoutes = require('./routes/auth')
 const deviceRoutes = require('./routes/device')
 
 app.use('/auth', authRoutes)
-app.use('/device', deviceRoutes)
+app.use('/', deviceRoutes)
 
 const server = http.createServer(app)
 

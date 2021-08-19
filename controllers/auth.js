@@ -14,7 +14,6 @@ module.exports = {
       password: password
     })
       .then(function (response) {
-        console.log(response)
         updateDotenv({
           ACCESS_TOKEN: response.data.access_token
         }).then((newEnv) => console.log('Updated ACCESS_TOKEN!', newEnv))
