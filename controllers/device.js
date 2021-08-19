@@ -76,6 +76,40 @@ function findState (inDeviceList, findDeviceId) {
   }
 }
 
+function discoveryRequest (requestId) {
+  return new Promise((resolve, reject) => {
+    axios.post(statusUrl, houseLoc, {
+      params: {
+        access_token: process.env.ACCESS_TOKEN || 'access_token'
+      }
+    })
+      .then(function (response) {
+        const out = {
+          headers: {
+            schema: 'st-schema',
+            version: '1.0',
+            interactionType: 'discoveryResponse',
+            requestId: requestId
+          },
+          devices: listDevices(response.data.deviceStatusAllList[0].deviceList)
+        }
+        resolve(out)
+      })
+      .catch(function (error) {
+        console.log(error)
+        try {
+          if (error.response.statusText === 'Unauthorized') {
+            authController.login()
+            return discoveryRequest(requestId)
+          } else {
+            reject(error)
+          }
+        } catch (err) {
+          reject(error)
+        }
+      })
+  })
+}
 
 
 
