@@ -26,6 +26,13 @@ class TwoWayMap {
 
 const capability = new TwoWayMap(capabilityFile)
 
+function grantCallbackAccess (callbackAuthentication) {
+  console.log('grantCallbackAccess token is:', callbackAuthentication.code)
+  console.log('grantCallbackAccess clientId is:', callbackAuthentication.clientId)
+  return {}
+}
+
+
 module.exports = {
   getStatus: function (req, res) {
     discoveryRequest().then(function (result) {
