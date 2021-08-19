@@ -112,6 +112,40 @@ function discoveryRequest (requestId) {
 }
 
 
+function stateRefreshRequest (requestId, devices) {
+  return new Promise((resolve, reject) => {
+    axios.post(statusUrl, houseLoc, {
+      params: {
+        access_token: process.env.ACCESS_TOKEN || 'access_token'
+      }
+    })
+      .then(function (response) {
+        const deviceList = response.data.deviceStatusAllList[0].deviceList
+        const out = { headers: { schema: 'st-schema', version: '1.0', interactionType: 'stateRefreshResponse', requestId: requestId }, deviceState: [] }
+        devices.forEach(({ externalDeviceId, deviceCookie }) => {
+          console.log('externalDeviceId: ', externalDeviceId)
+          const deviceResponse = findState(deviceList, externalDeviceId)
+          out.deviceState.push(deviceResponse)
+        })
+
+        console.log(out)
+        resolve(out)
+      })
+      .catch(function (error) {
+        console.log(error)
+        try {
+          if (error.response.statusText === 'Unauthorized') {
+            authController.login()
+            return stateRefreshRequest(requestId, devices)
+          } else {
+            reject(error)
+          }
+        } catch (err) {
+          reject(error)
+        }
+      })
+  })
+}
 
 module.exports = {
   getStatus: function (req, res) {
