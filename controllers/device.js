@@ -28,5 +28,58 @@ module.exports = {
   },
 
   setStatus: function (req, res) {
+    let response
+    const { headers, devices, callbackAuthentication } = req.body
+    const { interactionType, requestId } = headers
+    console.log('request type: ', interactionType)
+    try {
+      switch (interactionType) {
+        case 'discoveryRequest':
+          discoveryRequest(requestId).then(function (result) {
+            res.send(result)
+          }).catch(function (error) {
+            return res.status(500).json({
+              message: 'Error interacting',
+              error: error
+            })
+          })
+          return
+        case 'commandRequest':
+          commandRequest(requestId, devices).then(function (result) {
+            res.send(result)
+          }).catch(function (error) {
+            return res.status(500).json({
+              message: 'Error interacting',
+              error: error
+            })
+          })
+          return
+        case 'stateRefreshRequest':
+          stateRefreshRequest(requestId, devices).then(function (result) {
+            res.send(result)
+          }).catch(function (error) {
+            return res.status(500).json({
+              message: 'Error interacting',
+              error: error
+            })
+          })
+          return
+        case 'grantCallbackAccess':
+          response = grantCallbackAccess(callbackAuthentication)
+          break
+        case 'integrationDeleted':
+          console.log('integration to SmartThings deleted')
+          break
+        default:
+          response = 'error. not supported interactionType' + interactionType
+          console.log(response)
+          break
+      }
+    } catch (ex) {
+      console.log('failed with ex', ex)
+    }
+    if (response) {
+      res.send(response)
+    }
   }
 }
